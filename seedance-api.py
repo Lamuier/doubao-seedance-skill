@@ -1,6 +1,6 @@
 """
-Seedream Video API 调用模块
-可直接导入使用: from seedream_video import generate_video
+Seedance Video API 调用模块
+可直接导入使用: from seedance_api import generate_video
 """
 import requests
 import os
@@ -161,13 +161,20 @@ def generate_video(prompt, model=None, duration=5, ratio="16:9", resolution="720
 def main():
     import argparse
     
-    parser = argparse.ArgumentParser(description="Seedream 视频生成")
+    parser = argparse.ArgumentParser(description="Seedance 视频生成")
     parser.add_argument("prompt", nargs="?", default="一只小猫对着镜头打哈欠", help="视频描述")
     parser.add_argument("-m", "--model", help=f"模型版本: {', '.join(MODELS.keys())} (默认: 1.5-pro)")
     parser.add_argument("-d", "--duration", type=int, default=5, help="视频时长 秒 (默认: 5)")
     parser.add_argument("-r", "--ratio", default="16:9", help="宽高比 (默认: 16:9)")
     parser.add_argument("-s", "--resolution", default="720p", help="分辨率 (默认: 720p)")
     parser.add_argument("-o", "--output-dir", default="output", help="输出目录 (默认: output)")
+    parser.add_argument("-i", "--image", help="图生视频：参考图片 URL")
+    parser.add_argument("--first-frame", help="首尾帧视频：首帧图片 URL")
+    parser.add_argument("--last-frame", help="首尾帧视频：尾帧图片 URL")
+    parser.add_argument("--no-audio", action="store_true", help="不生成音频")
+    parser.add_argument("--seed", type=int, help="随机种子")
+    parser.add_argument("--fixed", action="store_true", help="固定摄像头")
+    parser.add_argument("--watermark", action="store_true", help="添加水印")
     
     args = parser.parse_args()
     
@@ -181,6 +188,13 @@ def main():
         duration=args.duration,
         ratio=args.ratio,
         resolution=args.resolution,
+        image=args.image,
+        first_frame=args.first_frame,
+        last_frame=args.last_frame,
+        generate_audio=not args.no_audio,
+        seed=args.seed,
+        camera_fixed=args.fixed,
+        watermark=args.watermark,
         output_dir=args.output_dir
     )
     

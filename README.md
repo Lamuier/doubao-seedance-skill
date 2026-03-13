@@ -40,6 +40,13 @@ python seedance_api.py "一只小猫打哈欠"
 | -r, --ratio | 宽高比 | 16:9 |
 | -s, --resolution | 分辨率 | 720p |
 | -o, --output-dir | 输出目录 | output |
+| -i, --image | 图生视频：参考图片 URL | - |
+| --first-frame | 首尾帧视频：首帧图片 URL | - |
+| --last-frame | 首尾帧视频：尾帧图片 URL | - |
+| --no-audio | 不生成音频 | - |
+| --seed | 随机种子 | - |
+| --fixed | 固定摄像头 | - |
+| --watermark | 添加水印 | - |
 
 ## 使用示例
 
@@ -52,6 +59,12 @@ python seedance_api.py "一只小猫打哈欠" -d 10 -s 1080p
 
 # 使用 1.0-lite 模型
 python seedance_api.py "一只小猫打哈欠" -m 1.0-lite-t2v
+
+# 图生视频
+python seedance_api.py "小猫奔跑" -i "https://example.com/cat.jpg"
+
+# 首尾帧视频
+python seedance_api.py "过渡动画" --first-frame "https://example.com/start.jpg" --last-frame "https://example.com/end.jpg"
 ```
 
 ## Python 代码调用
@@ -70,7 +83,9 @@ result = generate_video(
     duration=5,
     ratio="16:9",
     resolution="720p",
-    generate_audio=True  # 生成有声视频
+    generate_audio=True,
+    seed=42,
+    watermark=True
 )
 ```
 
